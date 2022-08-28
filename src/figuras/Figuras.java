@@ -4,6 +4,6 @@ abstract class Figuras {
 	
 	public abstract double superficie();
 	
-	public abstract String mostrar();
+	public abstract void mostrar();
 	
 }

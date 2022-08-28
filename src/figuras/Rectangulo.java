@@ -18,7 +18,7 @@ public class Rectangulo extends Figuras {
 		return superficie;
 	};
 	
-	public String mostrar() {
+	public void mostrar() {
 		
 		/*
 		 PRECONDICIONES: El tamaño de la base y de la altura deben ser números positivos.
@@ -27,7 +27,7 @@ public class Rectangulo extends Figuras {
 		
 		String frase = "El triángulo tiene una base de: " + base + ", una altura de: " + altura + " y una superficie de: " + superficie();
 		
-		return frase;
+		System.out.println(frase);
 	}
 	
 }

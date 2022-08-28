@@ -14,11 +14,20 @@ public class Menu {
 	
 	List<String>  tipoFiguras = Arrays.asList("Círculo", "Triángulo", "Rectangulo");
 			
-	Figuras vectorFiguras[] = new Figuras[tamanio];
+	Figuras vectorFiguras[];
+	
 	
 	public void cargarVector() {
 		
-		for (int i = 0; i < vectorFiguras.length ; i++) {
+		/* 
+		 * PRECONDICIONES: EL tamaño del vector debe ser mayor a cero.
+		 * POSTCONDICIONES: Se carga el vector "vectorFiguras" conn información aleatoria. Las figuras solo serán:
+		 * círculos, triángulos o rectángulos. 
+		 */
+		
+		Figuras vectorAuxiliar[] = new Figuras[tamanio];
+				
+		for (int i = 0; i < vectorAuxiliar.length ; i++) {
 			
 			switch (tipoFiguras.get(rand.nextInt(tipoFiguras.size()))) {
 			
@@ -26,50 +35,71 @@ public class Menu {
 				
 				Circulo circulo = new Circulo();
 				
-				circulo.radio = rand.nextDouble();
+				circulo.radio = (rand.nextDouble() + rand.nextInt(10));
 						
-				vectorFiguras[i] = circulo;
+				vectorAuxiliar[i] = circulo;
 			
 			case "Triángulo":
 				
 				Triangulo triangulo = new Triangulo();
 				
-				triangulo.base = rand.nextDouble();
+				triangulo.base = (rand.nextDouble() + rand.nextInt(10));
 				
-				triangulo.altura = rand.nextDouble();
+				triangulo.altura = (rand.nextDouble() + rand.nextInt(10));
 				
-				vectorFiguras[i] = triangulo;
+				vectorAuxiliar[i] = triangulo;
 				
 			case "Rectangulo":
 				
 				Rectangulo rectangulo = new Rectangulo();
 				
-				rectangulo.base = rand.nextDouble();
+				rectangulo.base = (rand.nextDouble() + rand.nextInt(10));
 				
-				rectangulo.altura = rand.nextDouble();
+				rectangulo.altura = (rand.nextDouble() + rand.nextInt(10));
 				
-				vectorFiguras[i] = rectangulo;	
+				vectorAuxiliar[i] = rectangulo;	
 				
 			}
 			
 		}
+		
+		vectorFiguras = vectorAuxiliar;
 	}
 	
-	public String objetoEnPosicion(int pos) {
+	public void objetoEnPosicion(int pos) {
+		
+		/*
+		 PRECONDICIONES: La posición que se pasa por parámetro debe ser un número válido entre 0 y
+		 el tamaño del vector -1.
+		 POSTCONDICIONES: Imprime en pantalla el objeto que se encuentra en la posición pasada por parámetro
+		 junto con los datos de sus atributos y superficie. 
+		 */
 		
 		Figuras objeto = vectorFiguras[pos];
 		
-		return objeto.mostrar();
+		objeto.mostrar();
 		
 	}
 	
 	public void darDeBajaElemento(int pos) {
+		
+		/*
+		 PRECONDICIONES: La posición que se pasa por parámetro debe ser un número válido entre 0 y
+		 el tamaño del vector -1.
+		 POSTCONDICIONES: Elimina el objeto que se encuentra en la posición dada por parámetro y deja el espacio
+		 vacío.
+		 */
 		
 		vectorFiguras[pos] = null;
 		
 	}
 	
 	public boolean hayEspacio() {
+		
+		/*
+		 *  PRECONDICIONES: El vector debe tener un tamaño mayor a cero. 
+		 *  POSTCONDICIONES: Devuelve true si hay algún lugar vacío en el vector y false en caso contrario.
+		 */
 		
 		boolean espacio = false;
 		
@@ -103,6 +133,13 @@ public class Menu {
 	
 	public void agregarElemento(Figuras elemento) {
 		
+		/*
+		 * PRECONDICIONES: La figura a ingresar debe ser válida (círculo, triángulo o rectángulo).
+		 * POSTCONDICIONES: En caso de que haya algún espacio vacío en el vector, agrega la figura dada
+		 * por parámetro. En caso contrario, se crea un nuevo vector con los datos del original más un
+		 * espacio vacío para el nuevo elemento. Se asigna este vector auxiliar como el nuevo vectorFiguras. 
+		 * */
+		
 		if(hayEspacio()) {
 			
 			int i = 0;
@@ -125,25 +162,72 @@ public class Menu {
 			}
 			
 			vectorFigurasNuevo[vectorFigurasNuevo.length-1] = elemento;
+			
+			vectorFiguras = vectorFigurasNuevo;	
 		} 
 		
-			
 	}
 	
-	public String listarElementos(Figuras[] vector) {
+	public void listarElementos() {
 		
-		for(i = 0; i < vector.length; i++) {
+		/*
+		 * PRECONDICIONES: El tamaño del vector debe ser mayor a cero.
+		 * POSTCONDICIONES: Se imprime en pantalla los datos de las figuras que componen el vector. 
+		 */
+		
+		for(int i = 0; i < vectorFiguras.length ; i++) {
 			
+			if (vectorFiguras[i] != null) {
+				
+				vectorFiguras[i].mostrar();
+				
+			} else {
+				
+				System.out.println("vacío");
+			}
 			
 		}
 	} 
 		
+	
+	public void superficieMaxima() {
 		
+		/*
+		 * PRECONDICIONES: El vector debe tener una superficie mayor a cero. 
+		 * POSTCONDICIONES: Devuelve cual es la superficie máxima entre todos los elementos del vector. 
+		 */
+		double max = vectorFiguras[0].superficie();
 		
+		for(int i = 0; i < vectorFiguras.length; i++ ) {
 			
-	public static void main(String[] args) {
+			if (max < vectorFiguras[i].superficie()) {
+				
+				max = vectorFiguras[i].superficie();
+			}
+		}
+		System.out.println(max);
+	}
 		
-	};
+	
+	public void superficieMinima() {
+		
+		/*
+		 * PRECONDICIONES: El vector debe tener una superficie mayor a cero. 
+		 * POSTCONDICIONES: Devuelve cual es la superficie mínima entre todos los elementos del vector. 
+		 */
+		
+		double min = vectorFiguras[0].superficie();
+		
+		for(int i = 0; i < vectorFiguras.length; i++ ) {
+			
+			if (min > vectorFiguras[i].superficie()) {
+				
+				min = vectorFiguras[i].superficie();
+			}
+		}
+		System.out.println(min);
+	}
+
 	
 	
 }
